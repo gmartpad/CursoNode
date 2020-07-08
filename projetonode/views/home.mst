@@ -2,3 +2,13 @@
 <p>Qualquer Mensagem</p>
 <p>Nome: {{nome}}</p>
 <p>Idade: {{idade}}</p>
+
+{{#mostrar}}
+Bobão
+{{/mostrar}}
+
+<ul>
+{{#ingredientes}}
+    <li>{{nome}} - {{qt}}</li>
+{{/ingredientes}}
+</ul>
