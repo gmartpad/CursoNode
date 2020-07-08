@@ -7,9 +7,11 @@ router.get('/', (req, res) => {
         idade: req.query.idade,
         mostrar: true,
         ingredientes:[
-            {nome: 'Arroz', qt: '20g'},
-            {nome: 'Feijão', qt: '10g'}
-        ]
+            //{nome: 'Arroz', qt: '20g'},
+            //{nome: 'Feijão', qt: '10g'}
+        ],
+        interesses: ['node', 'js', 'css'],
+        teste:'<strong>Testando negrito</strong>'
     }
     res.render('home', obj);
 });

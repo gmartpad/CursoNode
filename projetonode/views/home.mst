@@ -1,3 +1,5 @@
+{{> header}}
+
 <h1>Seja bem vindo(a)</h1>
 <p>Qualquer Mensagem</p>
 <p>Nome: {{nome}}</p>
@@ -12,3 +14,19 @@ Bobão
     <li>{{nome}} - {{qt}}</li>
 {{/ingredientes}}
 </ul>
+
+{{^ingredientes}}
+<p>Não há ingredientes</p>
+{{/ingredientes}}
+
+{{! isso aqui é um comentario}}
+
+<hr/>
+
+<ul>
+{{#interesses}}
+<li>{{.}}</li>
+{{/interesses}}
+</ul>
+
+{{{teste}}}
