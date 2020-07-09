@@ -2,6 +2,8 @@
 
 <h1>Página Home {{defaultPageTitle}}</h1>
 
+<p>Usuário Logado: {{userInfo.name}}
+
 <hr/>
 
 <p>Qualquer Mensagem</p>
