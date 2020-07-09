@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
             //{nome: 'Feijão', qt: '10g'}
         ],
         interesses: ['node', 'js', 'css'],
-        teste:'<strong>Testando negrito</strong>'
+        //teste:'<strong>Testando negrito</strong>',
+        //pageTitle:"Titulo de teste"
     }
     res.render('home', obj);
 });
