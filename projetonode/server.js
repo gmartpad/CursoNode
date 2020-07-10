@@ -8,7 +8,11 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopolo
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (error)=>{
     console.error("ERRO: "+error.message);
-})
+});
+
+// Carregando todos os models
+
+require('./models/Post');
 
 app.set('port', process.env.PORT || 7777);
 const server = app.listen(app.get('port'), ()=>{
