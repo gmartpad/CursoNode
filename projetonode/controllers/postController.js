@@ -33,6 +33,8 @@ exports.edit = async (req, res) => {
 
 exports.editAction = async (req, res) => {
 
+    req.body.tags = req.body.tags.split(',').map(t=>t.trim());
+
     req.body.slug = slug(req.body.title, {lowercase:true})
 
     try{
