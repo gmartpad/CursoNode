@@ -2,6 +2,13 @@ const mongoose = require('mongoose');
 const slug = require('slug');
 const Post = mongoose.model('Post');
 
+exports.view = async (req, res) => {
+    // 1. Pegar as informações do post em questão.
+    const post = await Post.findOne({ slug:req.params.slug });
+    // 2. Carregar o formulário de edição.
+    res.render('view', { post });
+}
+
 exports.add = (req, res) => {
     res.render('postAdd');
 };

@@ -7,7 +7,7 @@ mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     useFindAndModify: false
-});
+}).catch(error => console.log('ERRO: '+error));
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (error)=>{
     console.error("ERRO: "+error.message);
