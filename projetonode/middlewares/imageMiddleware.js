@@ -14,6 +14,21 @@ const multerOptions = {
     }
 };
 
-exports.upload = multer(multer).single('photo');
+exports.upload = multer(multerOptions).single('photo');
 
-exports.resize = () => {};
+exports.resize = async (req, file, next) => {
+    if(!req.file){
+        next();
+        return;
+    }
+
+    const ext = req.file.mimetype.split('/')[1];
+    let filename = `${uuid.v4()}.${ext}`;
+    req.body.photo = filename;
+
+    const photo = await jimp.read(req.file.buffer);
+    await photo.resize(800, jimp.AUTO);
+    await photo.write(`./public/media/${filename}`);
+
+    next();
+};
