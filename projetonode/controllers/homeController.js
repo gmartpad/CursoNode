@@ -11,10 +11,16 @@ exports.index = async (req, res) => {
     let responseJson = {
         pageTitle:"HOME",
         posts:[],
-        tags:[]    
-    }
+        tags:[] ,
+        tag:''   
+    };
+
+    responseJson.tag = req.query.t;
 
     const tags = await Post.getTagsList();
+    for(i in tags){
+        (tags[i]._id === responseJson.tag) ? tags[i].class = "selected" : null;
+    }
     responseJson.tags = tags;
 
     console.log(tags);
