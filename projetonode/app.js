@@ -29,14 +29,15 @@ app.use(session({
 }));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next)=>{
     res.locals.h = helpers;
     res.locals.flashes = req.flash();
+    res.locals.user = req.user;
     next();
 });
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 const User = require('./models/User');
 passport.use(new LocalStrategy(User.authenticate()));
