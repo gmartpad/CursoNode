@@ -25,6 +25,8 @@ exports.index = async (req, res) => {
 
     const [ tags, posts ] = await Promise.all([ tagsPromise, postsPromise ])
 
+    //console.log(posts[10].author.name);
+
     for(i in tags){
         (tags[i]._id === responseJson.tag) ? tags[i].class = "selected" : null;
     }
