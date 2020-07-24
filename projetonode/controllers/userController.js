@@ -43,4 +43,24 @@ exports.registerAction = (req, res) => {
 exports.logout = (req, res) => {
     req.logout();
     res.redirect('/');
+};
+
+exports.profile = (req, res) => {
+    res.render('profile');
+}
+
+exports.profileAction = async (req, res) => {
+    try{
+        const user = await User.findOneAndUpdate(
+            { _id:req.user._id },
+            { name:req.body.name, email:req.body.email },
+            { new:true, runValidators:true }
+        );
+    } catch(e) {
+        req.flash('error', 'Ocorreu algum erro:'+e.message);
+        res.redirect('/profile');
+    }
+
+    req.flash('success', 'Dados atualizados com sucesso!');
+    res.redirect('/profile');
 }
