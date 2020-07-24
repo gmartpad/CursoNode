@@ -64,3 +64,22 @@ exports.profileAction = async (req, res) => {
     req.flash('success', 'Dados atualizados com sucesso!');
     res.redirect('/profile');
 }
+
+exports.forget = (req, res) => {
+    res.render('forget');
+}
+
+exports.forgetAction = (req, res) => {
+    // 1. Verificar se o usuário realmente existe.
+    const user = User.findOne({email:req.body.email}).exec();
+    if(!user){
+        req.flash('error', 'E-mail não cadastrado');
+        res.redirect('/users/forget');
+        return;
+    }
+    // 2. Gerar um token (com data de expiração) e salvar no banco
+    // 3. Gerar link (com token) para trocar a senha
+    // 4. Enviar o link via e-mail para o usuário
+    // 5. Usuário vai acessar o link e trocar a senha.
+
+};
