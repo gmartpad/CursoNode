@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const crypto = require('crypto');
 
 exports.login = (req, res) => {
     res.render('login');
@@ -69,17 +70,48 @@ exports.forget = (req, res) => {
     res.render('forget');
 }
 
-exports.forgetAction = (req, res) => {
+exports.forgetAction = async (req, res) => {
     // 1. Verificar se o usuário realmente existe.
-    const user = User.findOne({email:req.body.email}).exec();
+    const user = await User.findOne({email:req.body.email}).exec();
     if(!user){
         req.flash('error', 'E-mail não cadastrado');
         res.redirect('/users/forget');
         return;
     }
     // 2. Gerar um token (com data de expiração) e salvar no banco
+    
+    user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+
+    await user.save();
+    
     // 3. Gerar link (com token) para trocar a senha
+
+    const resetLink = `http://${req.headers.host}/users/reset/${user.resetPasswordToken}`;
+
+    req.flash('success', 'Te enviamos um e-mail com instruções. '+resetLink);
+    res.redirect('/users/login');
+
     // 4. Enviar o link via e-mail para o usuário
+
+
     // 5. Usuário vai acessar o link e trocar a senha.
 
+
+
+};
+
+exports.forgetToken = async (req, res) => {
+    const user = await User.findOne({
+        resetPasswordToken: req.body.token,
+        resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if(!user){
+        req.flash('error', 'Token Expirado!');
+        res.redirect('/users/forget');
+        return;
+    }
+
+    res.render('forgetPassword');
 };
