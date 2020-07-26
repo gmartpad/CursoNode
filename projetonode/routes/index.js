@@ -17,7 +17,9 @@ router.post('/users/register', userController.registerAction);
 
 router.get('/users/forget', userController.forget);
 router.post('/users/forget', userController.forgetAction);
-router.get('users/reset/:token', userController.forgetToken);
+router.get('/users/reset/:token', userController.forgetToken);
+router.post('/users/reset/:token', userController.forgetTokenAction);
+
 
 router.get('/profile', authMiddleware.isLogged, userController.profile);
 router.post('/profile', authMiddleware.isLogged, userController.profileAction);

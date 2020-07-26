@@ -103,7 +103,7 @@ exports.forgetAction = async (req, res) => {
 
 exports.forgetToken = async (req, res) => {
     const user = await User.findOne({
-        resetPasswordToken: req.body.token,
+        resetPasswordToken: req.params.token,
         resetPasswordExpires: { $gt: Date.now() }
     });
 
@@ -114,4 +114,36 @@ exports.forgetToken = async (req, res) => {
     }
 
     res.render('forgetPassword');
+};
+
+exports.forgetTokenAction = async (req, res) => {
+    const user = await User.findOne({
+        resetPasswordToken: req.params.token,
+        resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if(!user){
+        req.flash('error', 'Token Expirado!');
+        res.redirect('/users/forget');
+        return;
+    }
+
+    //verificação se o senha e confirmar senha batem
+
+    // 1. Confirmar que as senhas batem.
+    if(req.body.password != req.body['password-confirm']){
+        req.flash('error', 'Senhas não batem');
+        res.redirect('back');
+        return;
+    }
+    // 2. Procurar o usuário e trocar a senha dele.
+    user.setPassword(req.body.password, async () => {
+        await user.save();
+
+        // 3. Redirecionar para a HOME
+        req.flash('success', 'Senha alterada com sucesso');
+        res.redirect('/');
+   
+    });
+
 };
