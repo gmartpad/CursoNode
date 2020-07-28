@@ -2,6 +2,12 @@ body{
     margin: 0;
 }
 
+ul, li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 .page {
     display: flex;
     height: 100vh;
@@ -12,7 +18,7 @@ body{
 
 #loginPage {
     background-color: #fff;
-    display: flex;
+    display: none;
 }
 #loginNameInput {
     border: 2px solid #000;
@@ -26,5 +32,37 @@ body{
 }
 
 #chatPage {
-    display: none;
+    display: flex;
+}
+
+.chatArea {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    background: #ccc;
+}
+
+.chatList{
+    flex: 1;
+    background: #fff;
+}
+
+.userList {
+    width: 200px;
+    background-color: #ccc;
+}
+
+.chatInput {
+    width: 100%;
+    display: flex;
+}
+
+#chatTextInput {
+    flex: 1;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 15px;
+    background-color: #ddd;
+    outline: 0;
+    border: 0;
 }
