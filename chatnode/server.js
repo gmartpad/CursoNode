@@ -52,7 +52,7 @@ io.on('connection', (socket) => {
         });
     })
 
-    //listener de desconexão de usuário
+    //listener de envio de mensagem
     socket.on('send-msg', (txt) => {
         let obj = {
             username: socket.username,

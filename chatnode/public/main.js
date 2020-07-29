@@ -73,6 +73,9 @@ function addMessage(type, user, msg) {
             }
         break;
     }
+
+    //deixar o scroll sempre nas mensagens mais recentes
+    ul.scrollTop = ul.scrollHeight;
 }
 
 
@@ -117,4 +120,22 @@ socket.on('list-update', (data) => {
 
 socket.on('show-msg', (data) => {
     addMessage('msg', data.username, data.message);
+});
+
+socket.on('disconnect', () => {
+    addMessage('status', null, 'Você foi desconectado!');
+    userList = [];
+    renderUserList();
+});
+
+socket.on('reconnect_error', () => {
+    addMessage('status', null, 'Tentando reconectar...');
+});
+
+socket.on('reconnect', () => {
+    addMessage('status', null, 'Reconectado!');
+
+    if(username){
+        socket.emit('join-request', username);
+    }
 })
