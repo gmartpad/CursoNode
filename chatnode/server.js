@@ -34,6 +34,21 @@ io.on('connection', (socket) => {
 
         //emitter user-ok
         socket.emit('user-ok', connectedUsers);
+        //emitter pra todo mundo, menos pro usuário que vai receber o emit acima
+        socket.broadcast.emit('list-update', {
+            joined: username,
+            list: connectedUsers
+        });
     });
+
+    socket.on('disconnect', () => {
+        //filtrar para atualizar a lista com todo mundo menos o usuário que saiu
+        connectedUsers = connectedUsers.filter(u => u !== socket.username);
+        console.log(connectedUsers);
+        socket.broadcast.emit('list-update', {
+            left: socket.username,
+            list: connectedUsers
+        });
+    })
 
 })

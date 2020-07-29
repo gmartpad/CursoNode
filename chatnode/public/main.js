@@ -42,6 +42,22 @@ loginInput.addEventListener('keyup', (e) => {
     }
 });
 
+//função responsável por exibir mensagem de ingressão e regressão do chat
+function addMessage(type, user, msg) {
+    //pega o container das mensagens do chat
+    let ul = document.querySelector('.chatList');
+
+    switch(type){
+        case 'status':
+            ul.innerHTML += `<li class="m-status">${msg}</li>`;
+        break;
+        case 'msg':
+            ul.innerHTML += `<li class="m-txt><span>${user}</span>${msg}</li>`;
+        break;
+    }
+}
+
+
 //listener do user-ok
 socket.on('user-ok', (connectedUsers) => {
 
@@ -52,9 +68,30 @@ socket.on('user-ok', (connectedUsers) => {
     //dá foco no campo de texto do chat
     textInput.focus();
 
+    //avisa que o usuário se conectou
+    addMessage('status', null, `Conectado`);
+
     //lista de usuários receber os usuários conectados
     userList = connectedUsers;
 
     //renderiza a lista de usuários na tela
+    renderUserList();
+});
+
+socket.on('list-update', (data) => {
+
+    if(data.joined){
+        //avisa que o usuário entrou na conversa
+        addMessage('status', null, `${data.joined} entrou na conversa!`);
+    }
+
+    if(data.left){
+        //avisa que o usuário saiu da conversa
+        addMessage('status', null, `${data.left} entrou na conversa!`);
+    }
+
+    // a lista de usuários se torna a lista atualizada, com o novo usuário
+    userList = data.list;
+    // renderiza a lista pra todo mundo que não é o usuário que acabou de entrar
     renderUserList();
 });
