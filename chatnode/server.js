@@ -15,7 +15,7 @@ server.listen(3000);
 //ler a pasta public
 app.use(express.static(path.join(__dirname, 'public')));
 
-//listener
+//listener do server (tbm tem que ter no client)
 io.on('connection', (socket) => {
     console.log("Conexão detectada...");
 })
