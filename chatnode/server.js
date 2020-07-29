@@ -41,6 +41,7 @@ io.on('connection', (socket) => {
         });
     });
 
+    //listener de desconexão de usuário
     socket.on('disconnect', () => {
         //filtrar para atualizar a lista com todo mundo menos o usuário que saiu
         connectedUsers = connectedUsers.filter(u => u !== socket.username);
@@ -50,5 +51,15 @@ io.on('connection', (socket) => {
             list: connectedUsers
         });
     })
+
+    //listener de desconexão de usuário
+    socket.on('send-msg', (txt) => {
+        let obj = {
+            username: socket.username,
+            message: txt
+        };
+
+        socket.broadcast.emit('show-msg', obj);
+    });
 
 })

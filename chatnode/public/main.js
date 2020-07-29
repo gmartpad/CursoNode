@@ -42,6 +42,20 @@ loginInput.addEventListener('keyup', (e) => {
     }
 });
 
+//ação para detectar envio de mensagem no chat
+textInput.addEventListener('keyup', (e) => {
+    if(e.keyCode === 13) { //tecla 13 é o Enter
+        //limpa as borda sem nada da msg
+        let txt = textInput.value.trim();
+        //limpa o inpur pra ficar proximo pro proximo envio
+        textInput.value = '';
+        if(txt !== ''){
+            addMessage('msg', username, txt);
+            socket.emit('send-msg', txt);           
+        }
+    }
+});
+
 //função responsável por exibir mensagem de ingressão e regressão do chat
 function addMessage(type, user, msg) {
     //pega o container das mensagens do chat
@@ -52,7 +66,11 @@ function addMessage(type, user, msg) {
             ul.innerHTML += `<li class="m-status">${msg}</li>`;
         break;
         case 'msg':
-            ul.innerHTML += `<li class="m-txt><span>${user}</span>${msg}</li>`;
+            if(user === username){
+                ul.innerHTML += `<li class="m-txt"><span class="me">${user}</span> ${msg}</li>`;
+            }else{
+                ul.innerHTML += `<li class="m-txt"><span>${user}</span> ${msg}</li>`;
+            }
         break;
     }
 }
@@ -92,6 +110,11 @@ socket.on('list-update', (data) => {
 
     // a lista de usuários se torna a lista atualizada, com o novo usuário
     userList = data.list;
+
     // renderiza a lista pra todo mundo que não é o usuário que acabou de entrar
     renderUserList();
 });
+
+socket.on('show-msg', (data) => {
+    addMessage('msg', data.username, data.message);
+})
